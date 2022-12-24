@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block body-class %} class="authentication-bg pb-0" data-layout-config='{"darkMode":false}' {% endblock %}
+
+{% block container-main %}
+    <div class="auth-fluid">
+            <!--Auth fluid left content -->
+            <div class="auth-fluid-form-box">
+                <div class="align-items-center d-flex h-100">
+                    <div class="card-body">
+
+                        <!-- Logo -->
+                        <div class="auth-brand text-center text-lg-start">
+                            <a href="index.html" class="logo-dark">
+                                <span><img src="assets/images/logo-dark.png" alt="" height="18"></span>
+                            </a>
+                            <a href="index.html" class="logo-light">
+                                <span><img src="assets/images/logo.png" alt="" height="18"></span>
+                            </a>
+                        </div>
+
+                        <!-- title-->
+                        <h4 class="mt-0">Inicio de Sesion</h4>
+                        <p class="text-muted mb-2">Ingreso usuario/email y contraseña.</p>
+
+                        <div class="text-muted mb-1" style="height: 40px;">
+                            <div id="id-message-error" class="alert alert-danger d-flex p-1 align-items-center d-none" role="alert">
+
+                            </div>
+                        </div>
+
+
+                        <!-- form -->
+                        <form id="id-form-login">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="emailaddress" class="form-label">Usuario o Correo Electronico</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <div class="input-group input-group-merge">
+                                    {{ form.password }}
+                                    <div class="input-group-text" data-password="false">
+                                        <span class="password-eye"></span>
+                                    </div>
+                                </div>
+                                <a href="pages-recoverpw.html" class="text-muted float-end"><small>Olvidaste tu contraseña?</small></a>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                                    <label class="form-check-label" for="checkbox-signin">No soy robot</label>
+                                </div>
+                            </div>
+                            <div class="d-grid mb-0 text-center">
+                               <button class="btn btn-primary" type="submit">
+                                    <span id="id-span-loading" class="mdi mdi-login" role="status" aria-hidden="true"></span>
+                                    Iniciar sesion
+                                </button>
+                            </div>
+                            <!-- social-->
+                            <div class="text-center mt-4">
+                                <p class="text-muted font-16">Sign in with</p>
+                                <ul class="social-list list-inline mt-3">
+                                    <li class="list-inline-item">
+                                        <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                        <!-- end form-->
+
+                        <!-- Footer-->
+                        <footer class="footer footer-alt">
+                            <p class="text-muted">Don't have an account? <a href="pages-register-2.html" class="text-muted ms-1"><b>Sign Up</b></a></p>
+                        </footer>
+
+                    </div> <!-- end .card-body -->
+                </div> <!-- end .align-items-center.d-flex.h-100-->
+            </div>
+            <!-- end auth-fluid-form-box-->
+
+            <!-- Auth fluid right content -->
+            <div class="auth-fluid-right text-center">
+                <div class="auth-user-testimonial">
+                    <h2 class="mb-3">I love the color!</h2>
+                    <p class="lead"><i class="mdi mdi-format-quote-open"></i> It's a elegent templete. I love it very much! . <i class="mdi mdi-format-quote-close"></i>
+                    </p>
+                    <p>
+                        - Hyper Admin User
+                    </p>
+                </div> <!-- end auth-user-testimonial-->
+            </div>
+            <!-- end Auth fluid right content -->
+        </div>
+{% endblock %}
+
+{% block srcjs %}
+    <script src="/static/app/security.js"></script>
+{% endblock %}
+
+{% block scriptjs %}
+<script>
+    const formLogin = document.querySelector('#id-form-login')
+    const spanLoading = document.querySelector('#id-span-loading')
+    const messageError = document.querySelector('#id-message-error')
+
+    formLogin.addEventListener('submit', async (event)=>{
+
+        event.preventDefault()
+        messageError.classList.add('d-none')
+
+        try{
+            const userName = document.querySelector('#id_username').value
+            const password = document.querySelector('#id_password').value
+
+            const user = new User(undefined,userName, password)
+            const security = new Security(user)
+
+            spanLoading.className=''
+            spanLoading.classList.add('spinner-border','spinner-border-sm','me-1')
+
+            await security.userLogin()
+            window.location.href = '/'
+
+        }catch (error) {
+
+            spanLoading.className=''
+            spanLoading.classList.add('mdi', 'mdi-login')
+
+            let message;
+            if (error instanceof Response) {
+                responseError= await error.json()
+                message = responseError.errors.join(',')
+            }else{
+                message = error.message ?? error
+            }
+
+            messageError.classList.remove('d-none')
+            messageError.classList.add('d-block')
+            messageError.innerHTML = `<i class="dripicons-warning"></i> ${message}`
+
+        }
+    });
+
+</script>
+{% endblock %}

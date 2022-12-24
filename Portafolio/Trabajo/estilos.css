@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Poppins:wght@300&display=swap');
+
+/*css Reset*/
+
+
+*{
+    margin: 0;
+}
+p{
+    font-family:'Times New Roman', Times, serif;
+    text-align: justify;
+    font-size: 25px;
+    margin-right: 35px;
+    margin-left: 35px;
+    margin-top: 5px;
+}
+h3{
+    font-size: 30px;
+    margin-left: 35px;
+    margin-top: 20px;
+
+}
+hr{
+    border-color: rgb(18, 17, 17);
+    margin-right: 35px;
+    margin-left: 35px;
+
+}
+.enlace-menu{
+    display: flex;
+    padding: 0;
+}
+.enlace-menu li{
+    padding: 0 40px;
+    list-style-type: none;
+    transition: 0.3s;
+}
+.enlace-menu li a{
+    color: rgb(45, 44, 44);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.enlace-menu li:hover{
+    background-color:rgb(251, 249, 249) ;
+}
+title{
+    font-size: 35px;
+}
+.text-center{
+    text-align: center;
+    font-size: 30px;
+    margin-top: 25px;
+    background-color:rgb(0, 0, 0);
+    height: 40px;
+    width: 100%;
+}
+
+label{
+    font-family:'Times New Roman', Times, serif;
+    color: rgb(22, 21, 21);
+}
+form{
+    margin-bottom: 30px;
+    margin-left: 50px;
+    font-size:x-large;
+}
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 8vh;
+}
+h1{
+    text-align: center;
+    color: rgb(123, 47, 47);
+    
+}
+.gracias{
+    text-align: center;
+
+}
+footer{
+    font-size: 30px;
+    margin-top: 25px;
+    background-color:rgb(251, 247, 247);
+    height: 40px;
+    width: 100%;
+    margin-left: 0;
+}
+img{
+    object-fit: cover;
+}
+.Imagen{
+    background-size: cover;
+}
